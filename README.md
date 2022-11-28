@@ -1,0 +1,2 @@
+# litecoin-wallet
+litecoin-wallet
