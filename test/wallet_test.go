@@ -1,6 +1,7 @@
 package test
 
 import (
+	litecoinWallet "github.com/ranjbar-dev/litecoin-wallet"
 	"testing"
 )
 

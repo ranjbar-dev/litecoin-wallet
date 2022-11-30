@@ -48,13 +48,14 @@ func (c *Crawler) ScanBlocks(count int) ([]CrawlResult, error) {
 
 	blockNumber := int64(number)
 
+	wg.Add(1)
 	go c.getBlockData(&wg, client, &allTransactions, blockNumber)
 
 	for i := count; i > 0; i-- {
-		wg.Add(1)
-		blockNumber = blockNumber - 1
 		// sleep to avoid 503 error
 		time.Sleep(100 * time.Millisecond)
+		blockNumber = blockNumber - 1
+		wg.Add(1)
 		go c.getBlockData(&wg, client, &allTransactions, blockNumber)
 	}
 
