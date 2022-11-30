@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/hex"
 	"errors"
-	"fmt"
 	"github.com/ltcsuite/ltcd/btcec/v2"
 	"github.com/ltcsuite/ltcd/chaincfg"
 	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
@@ -48,8 +47,6 @@ func prepareUTXOForTransaction(chain *chaincfg.Params, address string, amount in
 		if total >= (amount + fee) {
 			break
 		}
-
-		fmt.Println(record.Mined.Confirmations)
 
 		if record.Mined.Confirmations > 2 {
 
