@@ -225,12 +225,12 @@ func (bw *LitecoinWallet) Txs() ([]response.Transaction, error) {
 	return res.Data, nil
 }
 
-func (bw *LitecoinWallet) Transfer(toAddress string, amountInLitoshi int64, feeInLitoshi int64) (string, error) {
+func (bw *LitecoinWallet) Transfer(toAddress string, amountInLitoshi int64) (string, error) {
 
 	privateKey, err := bw.PrivateKeyBTCE()
 	if err != nil {
 		return "", err
 	}
 
-	return createSignAndBroadcastTransaction(bw.Chain(), privateKey, bw.Address, toAddress, amountInLitoshi, feeInLitoshi)
+	return createSignAndBroadcastTransaction(bw.Chain(), privateKey, bw.Address, toAddress, amountInLitoshi)
 }

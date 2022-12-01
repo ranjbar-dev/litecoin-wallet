@@ -13,7 +13,6 @@ var invalidOwnerAddress = "tb15111190u4dz48ctn1273333ss7fmspckag341fyp0"
 var validToAddress = "tltc1q39psaj2wrshycjyy7u3uytmx6sx7tyzd82zawd"
 var invalidToAddress = "tb15111190u4dz48ctn1273333ss7fmspckag341fyp0"
 var ltcAmount = int64(10000)
-var feeAmount = int64(10000)
 
 func wallet() *litecoinWallet.LitecoinWallet {
 	w, _ := litecoinWallet.CreateLitecoinWallet(node, validPrivateKey)

@@ -1,6 +1,7 @@
 package test
 
 import (
+	"fmt"
 	litecoinWallet "github.com/ranjbar-dev/litecoin-wallet"
 	"testing"
 )
@@ -100,7 +101,8 @@ func TestTransfer(t *testing.T) {
 	//	t.Errorf("Transfer error was incorect, got: %q, want: %q.", err, "not nil becuase to address is invalid")
 	//}
 
-	txId, err := w.Transfer(validToAddress, ltcAmount, feeAmount)
+	txId, err := w.Transfer(validToAddress, ltcAmount)
+	fmt.Println(txId)
 	if err != nil {
 		t.Errorf("Transfer error was incorect, got: %q, want: %q.", err, "nil")
 	}

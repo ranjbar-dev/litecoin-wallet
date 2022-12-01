@@ -3,7 +3,7 @@ litecoin wallet package for creating and generating wallet, transferring LTC, ge
  
  ### Installation 
 ```
-go get github.com/ranjbar-dev/litecoin-wallet@v1.0.3
+go get github.com/ranjbar-dev/litecoin-wallet@v1.0.4
 ```
 
 ### Supported nodes
