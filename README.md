@@ -3,7 +3,7 @@ litecoin wallet package for creating and generating wallet, transferring LTC, ge
  
  ### Installation 
 ```
-go get github.com/ranjbar-dev/litecoin-wallet@v1.0.4
+go get github.com/ranjbar-dev/litecoin-wallet@v1.0.5
 ```
 
 ### Supported nodes
@@ -80,7 +80,7 @@ Example
 
 Transfer ltc
 ```
-txId,err := w.Transfer("tb1q0r23g66m9rhhak8aahsg53wfp5egt2huuc4tnu",10000,1000)
+txId,err := w.Transfer("tb1q0r23g66m9rhhak8aahsg53wfp5egt2huuc4tnu",10000)
 txId // string
 ```
 
