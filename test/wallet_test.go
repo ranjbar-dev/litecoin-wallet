@@ -1,7 +1,6 @@
 package test
 
 import (
-	"fmt"
 	litecoinWallet "github.com/ranjbar-dev/litecoin-wallet"
 	"testing"
 )
@@ -95,18 +94,25 @@ func TestBalance(t *testing.T) {
 func TestTransfer(t *testing.T) {
 	w := wallet()
 
-	/// TODO : uncomment this after checking to Address added
-	//_, err := w.Transfer(invalidToAddress, ethAmount)
-	//if err == nil {
-	//	t.Errorf("Transfer error was incorect, got: %q, want: %q.", err, "not nil becuase to address is invalid")
-	//}
-
 	txId, err := w.Transfer(validToAddress, ltcAmount)
-	fmt.Println(txId)
 	if err != nil {
 		t.Errorf("Transfer error was incorect, got: %q, want: %q.", err, "nil")
 	}
 	if len(txId) == 0 {
 		t.Errorf("Transfer txId was incorect, got: %q, want: %q.", txId, "not nil")
+	}
+}
+
+// TestEstimateTransfer test
+func TestEstimateTransfer(t *testing.T) {
+	w := wallet()
+
+	amount, err := w.EstimateTransferFee(validToAddress, ltcAmount)
+
+	if err != nil {
+		t.Errorf("EstimateTransferFee error was incorect, got: %q, want: %q.", err, "nil")
+	}
+	if amount == 0 {
+		t.Errorf("EstimateTransferFee amount was incorect, got: %q, want: %q.", amount, "not 0")
 	}
 }

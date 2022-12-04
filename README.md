@@ -3,7 +3,7 @@ litecoin wallet package for creating and generating wallet, transferring LTC, ge
  
  ### Installation 
 ```
-go get github.com/ranjbar-dev/litecoin-wallet@v1.0.5
+go get github.com/ranjbar-dev/litecoin-wallet@v1.0.6
 ```
 
 ### Supported nodes
@@ -76,6 +76,12 @@ Example
 }
 * // 
 	
+```
+
+Estimate transfer ltc fee
+```
+feeInLitoshi,err := w.EstimateTransferFee("tb1q0r23g66m9rhhak8aahsg53wfp5egt2huuc4tnu",10000)
+feeInLitoshi // int64
 ```
 
 Transfer ltc

@@ -74,21 +74,21 @@ func CreateLitecoinWallet(node enums.Node, privateKeyHex string) (*LitecoinWalle
 
 // struct functions
 
-func (bw *LitecoinWallet) Chain() *chaincfg.Params {
+func (lw *LitecoinWallet) Chain() *chaincfg.Params {
 	chainConfig := &chaincfg.MainNetParams
-	if bw.Node.Test {
+	if lw.Node.Test {
 		chainConfig = &chaincfg.TestNet4Params
 	}
 	return chainConfig
 }
 
-func (bw *LitecoinWallet) PrivateKeyRCDSA() (*ecdsa.PrivateKey, error) {
-	return privateKeyFromHex(bw.PrivateKey)
+func (lw *LitecoinWallet) PrivateKeyRCDSA() (*ecdsa.PrivateKey, error) {
+	return privateKeyFromHex(lw.PrivateKey)
 }
 
-func (bw *LitecoinWallet) PrivateKeyBTCE() (*btcec.PrivateKey, error) {
+func (lw *LitecoinWallet) PrivateKeyBTCE() (*btcec.PrivateKey, error) {
 
-	temp, err := bw.PrivateKeyBytes()
+	temp, err := lw.PrivateKeyBytes()
 	if err != nil {
 		return nil, err
 	}
@@ -98,9 +98,9 @@ func (bw *LitecoinWallet) PrivateKeyBTCE() (*btcec.PrivateKey, error) {
 	return priv, nil
 }
 
-func (bw *LitecoinWallet) PrivateKeyBytes() ([]byte, error) {
+func (lw *LitecoinWallet) PrivateKeyBytes() ([]byte, error) {
 
-	priv, err := bw.PrivateKeyRCDSA()
+	priv, err := lw.PrivateKeyRCDSA()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -108,14 +108,14 @@ func (bw *LitecoinWallet) PrivateKeyBytes() ([]byte, error) {
 	return crypto.FromECDSA(priv), nil
 }
 
-func (bw *LitecoinWallet) WIF() (*ltcutil.WIF, error) {
+func (lw *LitecoinWallet) WIF() (*ltcutil.WIF, error) {
 
-	priv, err := bw.PrivateKeyBTCE()
+	priv, err := lw.PrivateKeyBTCE()
 	if err != nil {
 		return nil, err
 	}
 
-	return ltcutil.NewWIF(priv, bw.Chain(), true)
+	return ltcutil.NewWIF(priv, lw.Chain(), true)
 }
 
 // private key
@@ -180,9 +180,9 @@ func getAddressFromPrivateKey(node enums.Node, privateKey *ecdsa.PrivateKey) (st
 
 // balance
 
-func (bw *LitecoinWallet) Balance() (int64, error) {
+func (lw *LitecoinWallet) Balance() (int64, error) {
 
-	res, err := bw.bd.AddressBalance(bw.Address)
+	res, err := lw.bd.AddressBalance(lw.Address)
 	if err != nil {
 		return 0, err
 	}
@@ -197,11 +197,11 @@ func (bw *LitecoinWallet) Balance() (int64, error) {
 
 // transactions
 
-func (bw *LitecoinWallet) UTXOs() ([]response.UTXO, error) {
+func (lw *LitecoinWallet) UTXOs() ([]response.UTXO, error) {
 
 	var res []response.UTXO
 
-	utxos, err := bw.bd.AddressUTXO(bw.Address)
+	utxos, err := lw.bd.AddressUTXO(lw.Address)
 	if err != nil {
 		return nil, err
 	}
@@ -215,9 +215,9 @@ func (bw *LitecoinWallet) UTXOs() ([]response.UTXO, error) {
 	return res, nil
 }
 
-func (bw *LitecoinWallet) Txs() ([]response.Transaction, error) {
+func (lw *LitecoinWallet) Txs() ([]response.Transaction, error) {
 
-	res, err := bw.bd.AddressTxs(bw.Address)
+	res, err := lw.bd.AddressTxs(lw.Address)
 	if err != nil {
 		return nil, err
 	}
@@ -225,12 +225,17 @@ func (bw *LitecoinWallet) Txs() ([]response.Transaction, error) {
 	return res.Data, nil
 }
 
-func (bw *LitecoinWallet) Transfer(toAddress string, amountInLitoshi int64) (string, error) {
+func (lw *LitecoinWallet) Transfer(toAddress string, amountInLitoshi int64) (string, error) {
 
-	privateKey, err := bw.PrivateKeyBTCE()
+	privateKey, err := lw.PrivateKeyBTCE()
 	if err != nil {
 		return "", err
 	}
 
-	return createSignAndBroadcastTransaction(bw.Chain(), privateKey, bw.Address, toAddress, amountInLitoshi)
+	return createSignAndBroadcastTransaction(lw.Chain(), privateKey, lw.Address, toAddress, amountInLitoshi)
+}
+
+func (lw *LitecoinWallet) EstimateTransferFee(toAddress string, amountInLitoshi int64) (int64, error) {
+
+	return estimateTransactionFee(lw.Chain(), lw.Address, toAddress, amountInLitoshi)
 }
